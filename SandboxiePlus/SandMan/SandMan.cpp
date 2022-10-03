@@ -2021,6 +2021,7 @@ void CSandMan::UpdateCertState()
 	g_CertInfo.State = theAPI->GetCertState();
 
     g_CertInfo.valid = 1;
+    g_CertInfo.expired = 0;
 
 #ifdef _DEBUG
 	int CertificateStatus = theConf->GetInt("Debug/CertificateStatus", -1);
