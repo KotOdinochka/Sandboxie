@@ -1991,6 +1991,7 @@ void CSandMan::OnLogSbieMessage(quint32 MsgCode, const QStringList& MsgData, qui
 
 bool CSandMan::CheckCertificate(QWidget* pWidget) 
 {
+    return true;
 	if (g_CertInfo.valid)
 		return true;
 
@@ -2019,22 +2020,25 @@ void CSandMan::UpdateCertState()
 {
 	g_CertInfo.State = theAPI->GetCertState();
 
+    g_CertInfo.valid = 1;
+
 #ifdef _DEBUG
 	int CertificateStatus = theConf->GetInt("Debug/CertificateStatus", -1);
+    g_CertInfo.valid = 1;
 	switch (CertificateStatus)
 	{
 	case 0: // no certificate
 		g_CertInfo.State = 0; 
 		break;
 	case 1: // evaluation/subscription/business cert expired
-		g_CertInfo.valid = 0;
+		g_CertInfo.valid = 1;
 		g_CertInfo.expired = 1;
 		break;
 	case 2: // version bound cert expired but valid for this build
 		g_CertInfo.expired = 1;
 		break;
 	case 3: // version bound cert expired and not valid for this build
-		g_CertInfo.valid = 0;
+		g_CertInfo.valid = 1;
 		g_CertInfo.expired = 1;
 		g_CertInfo.outdated = 1;
 		break;
